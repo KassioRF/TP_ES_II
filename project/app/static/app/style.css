@@ -1,0 +1,117 @@
+
+/* Variables */
+
+:root {
+  /* Default Colors */
+  --mainYellow: #fdcb6e;
+  --mainBlack: #353b48;
+  --whiteBg:   #f9f9f9;
+  --white: #fff;
+  --grayText: #666666;
+
+  --greenIcons: #27ae60;
+  --redIcons: #a8243e;
+  /* --mainYellow: #ff9f43; */
+  
+  
+  /* Shadows */
+  --boxShadow_btn: 2px 2px 2px rgb(127 137 161 / 30%);
+  --boxShadow: 0px 0px 10px 2px rgb(0 0 0 / 5%);
+}
+
+body {
+  background-color: var(--whiteBg);
+}
+
+.gray-text {
+  color: var(--grayText);
+  font-size: 10pt
+}
+
+.app-nav-bar {
+  background-color: var(--mainYellow);
+}
+
+.app-logo {
+  padding-right: 5%;
+}
+
+.app-nav-elements-display-flex {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.app-flex-justify {
+  justify-content: space-between;
+
+}
+
+.app-flex-space-around {
+  justify-content: space-around;
+
+}
+
+.app-flex-column {
+  display: flex;
+  flex-direction: column;
+
+}
+
+/* buttons */
+.app-main-btn {
+  color: var(--mainBlack);
+  background-color: var(--mainYellow);
+  font-weight: 500;
+  box-shadow: var(--boxShadow_btn);
+
+  border-radius: 0.75rem;
+
+  
+}
+
+/* spent overview */
+
+.app-balanco-info {
+  text-align: center;
+  font-size: 14pt;
+}
+
+
+/* value-color */
+.green-value {
+  color: var(--greenIcons)
+}
+.red-value {
+  color: var(--redIcons)
+}
+
+/* tables */
+.app-balanco {
+  font-family: monospace;
+}
+.app-table-el > table {
+  background-color: var(--white);
+  box-shadow: var(--boxShadow_btn);  
+  text-align: center;
+}
+
+.desc-icon {
+  cursor: pointer;
+  color: gray;
+}
+
+.remove-table-line {
+  cursor: pointer;
+  color: var(--redIcons);
+  font-size: 13pt;
+}
+
+
+/* overview-spent */
+.app-overview-spent {
+  border-radius: 0.7rem;
+  padding: 1.2rem;
+  box-shadow: var(--boxShadow_btn);
+  background-color: var(--white);
+}
