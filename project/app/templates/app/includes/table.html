@@ -1,5 +1,7 @@
 <div class="app-balanco">
   <div class="app-table-el">
+
+{% comment %} 
     <table class="table table-sm table-bordered app-table">
       <thead>
         <tr>
@@ -24,6 +26,40 @@
           <td class="red-value">- R$50,00</td>
           <td><span class=" remove-table-line far fa-trash-alt"></span></td>
         </tr>
+      </tbody>
+    
+    </table>
+ {% endcomment %}
+
+
+    <table class="table table-sm table-bordered app-table">
+      <thead>
+        <tr>
+          <th scope="col">data</th>
+          <th scope="col">tipo</th>
+          {% comment %} <th scope="col">descr.</th> {% endcomment %}
+          <th scope="col">valor</th>
+          <th scope="col">del</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for d in data %}
+          <tr>
+            <td>{{d.get_date}}</td>
+            <td>{{d.dtype}}</td>
+            {% comment %} <td><span class="desc-icon fas fa-info-circle"></span></td> {% endcomment %}
+            {% if d.mode == 'spent' %}
+              <td class="red-value">- {{d.get_value}}</td>              
+            {% else %}
+              <td class="green-value">+ {{d.get_value}}</td>              
+            {% endif %}
+            {% comment %} fazer um attr pra remover o elemento via ajax com a url de remover! {% endcomment %}
+            {% comment %} <td> <a href=""> </a> <span class=" remove-table-line far fa-trash-alt"></span> </td>   {% endcomment %}
+            <td> <a id="removedata" type="button" class="btn" href="{% url 'app:remove' d.id%}"> <span class=" remove-table-line far fa-trash-alt"></span> </a> </td>  
+          </tr>
+        
+        {% endfor %}
       </tbody>
     
     </table>

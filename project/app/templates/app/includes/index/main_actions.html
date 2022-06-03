@@ -43,7 +43,7 @@
           <!-- Categoria -->
           <div class="mb-3">
             <label for="add-type" class="col-form-label">Tipo</label>  
-            <select  class="form-select" name="type" aria-label="Default select example" required>
+            <select id="add-type" class="form-select" name="type" aria-label="Default select example" required>
               <option selected>--</option>
               {% for type in spent_types %}
                 <option value="{{type}}">{{type}}</option>
@@ -70,19 +70,58 @@
   </div>
 </div>
 
+
+
+{{spent_types|json_script:"spent_types"}}
+{{profit_types|json_script:"profit_types"}}
+
 <script>
+
+  const spent_types = JSON.parse(document.getElementById('spent_types').textContent);
+  const profit_types = JSON.parse(document.getElementById('profit_types').textContent);
+
+  console.log(spent_types)
+  console.log(profit_types)
   var action;
 
+  
+  /* =============== Define modal-form content ===============*/ 
   $(".main-action-btn").on("click", e => {
     console.log(e.target.getAttribute("data-action"));
 
     action = e.target.getAttribute("data-action");
+    
     $("#add-line-data-modalLabel").html(`Inserir ${action}`);
+    
+    $("#add-type").html("");
+    $("#add-type").append($('<option>', {text: '---' }));
+    if (action == 'gasto') {
+      spent_types.forEach(t => {
+        
+        console.log($('<option>'), {value: t, text: t })
+        
+        $("#add-type").append($('<option>', {
+          value: t,
+          text: t  
+        }))
+      })
+    }else {
+      profit_types.forEach(t => {
+        $("#add-type").append($('<option>', {
+          value: t,
+          text: t  
+        }))
+      })
+    }
+
   });
+  
+  
+  /* =============== apply masc ===============*/ 
   $("#add-value").mask('000.000.000.000.000,00', {reverse: true});
   
 
-  // submit from ajax
+  /* =============== submit from ajax ===============*/ 
   $("#add-line-data-form").submit(e => {    
     // preventing from page reload and default actions
     e.preventDefault();
@@ -100,6 +139,7 @@
         // 1. clear the form.
         $("#add-line-data-form").trigger("reset");
         //back to home page (refresh page)
+        window.location.reload(true);
       },
       error: response => {
         // alert the error if any error occured

@@ -2,9 +2,13 @@
 <span class="app-balanco gray-text">08/04/22  - {{date_today}}</span> <span>seletor de datas ?</span>
 <div class="app-overview-spent app-flex-column app-balanco">
   
-  <p class="app-balanco-info">balanço: +R$50,00</p>
+  {% if balance.balance < 0 %}
+    <p class="app-balanco-info">balanço: <span class="red-value" >-R${{balance.balance}}</span> </p>
+  {% else %}
+    <p class="app-balanco-info">balanço: <span class="green-value" >+R${{balance.balance}}</span> </p>
+  {% endif %}
   
-  <span>entradas:  <span class="green-value">R$100,00</span> </span>
-  <span>gastos: <span class="red-value">R$50,00</span> </span>
+  <span>entradas:  <span class="green-value">R${{balance.profit}}</span> </span>
+  <span>gastos: <span class="red-value">-R${{balance.spent}}</span> </span>
 
 </div>

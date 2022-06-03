@@ -1,4 +1,6 @@
 from django.db import models
+from datetime import datetime
+
 
 import json
 
@@ -7,6 +9,9 @@ import json
 class DType(models.Model):
   dtype = models.CharField(max_length=12, unique=True)
   mode = models.CharField(max_length=12, default="spent")
+
+  def __str__(self):
+    return self.dtype
 
 
 class Data(models.Model):
@@ -17,6 +22,12 @@ class Data(models.Model):
   dtype = models.ForeignKey(DType, on_delete=models.PROTECT)
   description = models.TextField(null=True)
 
-  def get_data(self):
-    return json.loads(self.data)
+
+  def get_date(self):
+    return self.date.strftime("%d/%m/%y")
+
+  
+  def get_value(self):
+    return "{:,.2f}".format(self.value)
+    
 

@@ -113,6 +113,10 @@ body {
   color: gray;
 }
 
+
+#removedata {
+  padding:1px;
+}
 .remove-table-line {
   cursor: pointer;
   color: var(--redIcons);
