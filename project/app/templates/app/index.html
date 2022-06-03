@@ -3,61 +3,23 @@
 
 {% block content %}
 
-  <section class="container">
-    
-
-    {% comment %} <hr>
-    <div class="section-title app-nav-elements-display-flex app-flex-justify">
-      <h4>Controle de gastos</h4>
-      <h6>{{date_today}}</h6 >
-    </div>     {% endcomment %}
-
-    
+  <section class="container">    
     <!-- overview -->
     <hr>
-    <span class="app-balanco gray-text">08/04/22  - {{date_today}}</span> <span>seletor de datas ?</span>
-    <div class="app-overview-spent app-flex-column app-balanco">
-      
-      <p class="app-balanco-info">balanço: +R$50,00</p>
-      
-      <span>entradas:  <span class="green-value">R$100,00</span> </span>
-      <span>gastos: <span class="red-value">R$50,00</span> </span>
-    
-    </div>
+    {% include 'app/includes/index/main_overview.html' %}
     
     <!-- main actions -->
     <hr>
-    <div class="app-main-actions">
-      <div class="app-nav-elements-display-flex app-flex-space-around">
-        
-        <div class="option-el">
-          {% comment %} (+ gasto ) {% endcomment %}
-          <button type="button" class="btn app-main-btn btn-lg"> + gasto </button>
-        </div>
-        
-        <div class="option-el">
-          {% comment %} ( + entrada ) {% endcomment %}
-          <button type="button" class="btn app-main-btn btn"> + entrada </button>
-        </div>
-      
-      </div>
-    </div>
-
+    {% include 'app/includes/index/main_actions.html' %}
 
     <!--tabela mes atual-->
     <hr>
-    <div class="app-balanco">
-      {% include 'app/includes/table.html' %}
-    </div>
-
-
-    
+    {% include 'app/includes/table.html' %}
+  
 
     <!--options-->
     <hr>
-    <div class="col-12">
-      {% include 'app/includes/index/options.html' %}
-    </div>
+    {% include 'app/includes/index/options.html' %}
 
     
   </section>
