@@ -3,15 +3,134 @@
     
     <div class="option-el">
       {% comment %} (+ gasto ) {% endcomment %}
-      <button type="button" class="btn app-main-btn btn-lg"> + gasto </button>
+      <button type="button" class="btn app-main-btn btn-lg main-action-btn" data-bs-toggle="modal" data-bs-target="#add-line-data-modal" data-action="gasto"> + gasto </button>
     </div>
     
     <div class="option-el">
       {% comment %} ( + entrada ) {% endcomment %}
-      <button type="button" class="btn app-main-btn btn"> + entrada </button>
+      <button type="button" class="btn app-main-btn btn main-action-btn" data-bs-toggle="modal" data-bs-target="#add-line-data-modal" data-action="saldo"> + entrada </button>
     </div>
   </div>
 </div>
 
 
-<!--Modal -->
+
+<!--Modal  add-line-data -->
+<div class="modal fade" id="add-line-data-modal" tabindex="-1" aria-labelledby="add-line-data-modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="add-line-data-modalLabel">New message</h5>
+        {% comment %} <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> {% endcomment %}
+      </div>
+      <div class="modal-body">
+        <form id="add-line-data-form">
+          {% csrf_token %}
+
+          <!-- Valor -->
+          <div class="mb-3">
+            <label for="add-value" class="col-form-label">Valor</label>
+            <input name="value" type="text" class="form-control" id="add-value"  pattern="[0-9]+([\.,][0-9]+)?*" inputmode="numeric" >
+          </div>
+          
+          <!-- Data -->
+          <div class="mb-3">
+            <label for="add-value" class="col-form-label">Data</label>
+            <input name="date" type="date" class="form-control" id="add-date">
+          </div>
+
+
+          <!-- Categoria -->
+          <div class="mb-3">
+            <label for="add-type" class="col-form-label">Tipo</label>  
+            <select  class="form-select" name="type" aria-label="Default select example" required>
+              <option selected>--</option>
+              {% for type in spent_types %}
+                <option value="{{type}}">{{type}}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <!-- Descrição -->
+          <div class="mb-3">
+            <label for="description" class="col-form-label">Descrição</label>
+            <textarea class="form-control" name="description" id="description"></textarea>
+          </div>
+
+        </div>
+      
+        <div class="modal-footer">
+          <button type="button" class="close-btn" data-bs-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
+          <button type="submit" class="btn app-main-btn"><i class="fas fa-check"></i></button>
+        </div>
+      
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  var action;
+
+  $(".main-action-btn").on("click", e => {
+    console.log(e.target.getAttribute("data-action"));
+
+    action = e.target.getAttribute("data-action");
+    $("#add-line-data-modalLabel").html(`Inserir ${action}`);
+  });
+  $("#add-value").mask('000.000.000.000.000,00', {reverse: true});
+  
+
+  // submit from ajax
+  $("#add-line-data-form").submit(e => {
+    console.log('submit')
+    
+    var action_url = "spent" ? action == 'gasto' : 'saldo';
+    // preventing from page reload and default actions
+    e.preventDefault();
+
+    // serialize the data for sending the form data.
+    console.log($("#add-line-data-form"))
+    
+    var serializedData = $("#add-line-data-form").serialize();
+    
+    console.log(serializedData);
+    
+    //make POST ajax call
+    $.ajax({
+      type: 'POST',
+      url: "{% url 'app:add_spent' %}",
+      data: serializedData,
+      success: response => {
+        // on successfull creating object
+        // 1. clear the form.
+        $("#add-line-data-form").trigger("reset");
+
+        //back to home page (refresh page)
+
+
+      },
+      error: response => {
+        // alert the error if any error occured
+        alert(response["responseJSON"]["error"])
+      }
+    });
+
+  });
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+

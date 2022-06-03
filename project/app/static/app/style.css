@@ -23,6 +23,18 @@ body {
   background-color: var(--whiteBg);
 }
 
+.main-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  max-width: 525px;
+
+}
+
+
+
+
 .gray-text {
   color: var(--grayText);
   font-size: 10pt
@@ -44,18 +56,18 @@ body {
 
 .app-flex-justify {
   justify-content: space-between;
-
+  
 }
 
 .app-flex-space-around {
   justify-content: space-around;
-
+  
 }
 
 .app-flex-column {
   display: flex;
   flex-direction: column;
-
+  
 }
 
 /* buttons */
@@ -64,9 +76,9 @@ body {
   background-color: var(--mainYellow);
   font-weight: 500;
   box-shadow: var(--boxShadow_btn);
-
+  
   border-radius: 0.75rem;
-
+  
   
 }
 
@@ -115,3 +127,33 @@ body {
   box-shadow: var(--boxShadow_btn);
   background-color: var(--white);
 }
+
+
+/*======================== Main Actions ==============================*/
+
+#add-value {
+  -moz-appearance: number;
+}
+
+.modal-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+/* Modal add-line-data  */
+.modal-footer button {
+  margin: 0 1.3rem;
+}
+
+.close-btn {
+  color: var(--redIcons) !important;
+  border: none;
+  background: white;
+  font-size: 15pt;
+}
+
+
+
+
+
