@@ -83,33 +83,23 @@
   
 
   // submit from ajax
-  $("#add-line-data-form").submit(e => {
-    console.log('submit')
-    
-    var action_url = "spent" ? action == 'gasto' : 'saldo';
+  $("#add-line-data-form").submit(e => {    
     // preventing from page reload and default actions
     e.preventDefault();
-
-    // serialize the data for sending the form data.
-    console.log($("#add-line-data-form"))
     
+    // serialize the data for sending the form data.    
     var serializedData = $("#add-line-data-form").serialize();
-    
-    console.log(serializedData);
-    
     //make POST ajax call
+    var url =  action == 'gasto' ? "{% url 'app:add_spent' %}" : "{% url 'app:add_profit' %}";
     $.ajax({
       type: 'POST',
-      url: "{% url 'app:add_spent' %}",
+      url: url,
       data: serializedData,
       success: response => {
         // on successfull creating object
         // 1. clear the form.
         $("#add-line-data-form").trigger("reset");
-
         //back to home page (refresh page)
-
-
       },
       error: response => {
         // alert the error if any error occured

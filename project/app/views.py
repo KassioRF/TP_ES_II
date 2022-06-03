@@ -4,6 +4,8 @@ from django.core import serializers
 
 from datetime import date, datetime
 
+from app.models import DType, Data
+
 import pprint
 
 # Create your views here.
@@ -11,7 +13,8 @@ import pprint
 
 
 def index(request):
-  spent_types = ["água", "luz", "internet", "telefone", "boleto", "outros"]
+  # spent_types = ["água", "luz", "internet", "telefone", "boleto", "outros"]
+  spent_types = [t.dtype for t in DType.objects.filter(mode="spent")]
   
   date_today = date.today().strftime("%d/%m/%y")
   return render(request, 'app/index.html', {
@@ -21,7 +24,7 @@ def index(request):
 
 
 def add_spent(request):
-  print(pprint.pformat(request))
+  print("spent")
   if request.method == "POST":
     #get form data
     print(request.POST)
@@ -38,4 +41,16 @@ def add_spent(request):
 
 
 def add_profit(request):
-  pass
+  print("profit")
+  if request.method == "POST":
+    #get form data
+    print(request.POST)
+
+    
+    return JsonResponse({"status": "ok"}, status=200)
+  
+  
+  else:
+    return JsonResponse({"error": "Ops! Ocorreu um erro. Operação não realizada."}, status=400)
+
+  return JsonResponse({"error": "Ops! Ocorreu um erro. Operação não realizada."}, status=400)
