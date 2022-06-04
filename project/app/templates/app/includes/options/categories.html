@@ -1,0 +1,134 @@
+<!-- Modal  categories-->
+<div class="modal fade" id="modal-options-categories" tabindex="-1" aria-labelledby="modal-options-categories-Label" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal-options-categories-Label">Categorias</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      
+      <div class="modal-body">      
+
+        <div class="display-flex">
+          <!-- table categories -->
+          <table class="table table-sm table-bordered app-table">
+            <thead>
+              <tr>
+                <th scope="col">categoria</th>
+                <th scope="col">tipo</th>
+                <th scope="col">del</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+
+                <form id="addtype-form" action="">
+                  {% csrf_token %}
+                  <td><input name="dtype" type="text" class="form-control" required></td>
+                  <td>
+                    <select name="mode" class="form-control" required>
+                      <option value="spent"> gasto </option>
+                      <option value="profit"> saldo </option>
+                    </select>
+                  
+                  </td>
+                  <td> <button id="addtype" type="submit" class="btn" > <span class="green-value far fa-check-circle"></span> </button> </td>  
+                </form>
+              
+              </tr>
+
+              {% for t in dtypes %}
+                <tr>
+                  <td>{{t.dtype}}</td>
+                  {% if t.mode == 'profit' %}
+                    <td class="green-value">saldo</td>
+                  {% else %}
+                    <td class="red-value">gasto</td>
+                  {% endif %}
+
+                  <td> <a id="removetype" type="button" class="btn"  onclick="removeCategory('{% url 'app:remove_dtype' t.id %}');"> <span class=" remove-table-line far fa-trash-alt"></span> </a> </td>  
+                </tr>              
+                <!--{% url 'app:remove_dtype' t.id %}-->
+              {% endfor %}
+
+            </tbody>
+          </table>
+          
+          
+        </div>    
+      </div>
+  
+      <div class="modal-footer">
+  
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<script>
+  var categoriesModal = new bootstrap.Modal(document.getElementById('modal-options-categories'), {
+    keyboard: false
+  });
+
+  if( window.location.hash == '#cat') {
+    categoriesModal.show();
+    window.location.hash = "";
+  }
+
+  $("#addtype-form").submit(e => {
+    // preventing from page reload and default actions
+    e.preventDefault();
+    console.log("submit");
+    var serializedData = $("#addtype-form").serialize();
+    // url add category
+
+    var url = "{% url 'app:add_dtype' %}";
+    $.ajax({
+      type: 'POST',
+      url: url,
+      data: serializedData,
+      success: response => {
+        console.log('success');
+        window.location.hash = '#cat';
+        window.location.reload(true)
+        
+      },
+      error: response => {
+        // alert the error if any error occured
+        window.location.hash = '#cat';               
+        window.location.reload(true); 
+        alert(response["responseJSON"]["error"]);
+      }
+    })
+
+
+    
+  })
+  
+  function removeCategory(url) {    
+    console.log(url);
+
+    $.ajax({
+      type:'GET',
+      url:url,
+      success: response => {
+        console.log('success');
+        window.location.hash = '#cat';
+        window.location.reload(true)
+      },
+      error: response => {
+        // alert the error if any error occured
+        window.location.hash = '#cat';               
+        window.location.reload(true); 
+        alert(response["responseJSON"]["error"]);
+      }
+    });
+  }
+
+
+
+</script>
+

@@ -1,0 +1,69 @@
+
+
+<div class="modal fade" id="modal-options-filters" tabindex="-1" aria-labelledby="modal-options-filters-Label" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal-options-filters-Label">Filtros</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      
+      <div class="modal-body">        
+        <div class="display-flex">
+          <!-- filters -->
+          <form id="filter-form" action="" method="POST">
+            <!-- Data -->
+            {% csrf_token %}
+            <div class="row">
+              <div class="col">
+                <label for="add-value" class="col-form-label">de</label>
+                <input name="init_date" type="date" class="form-control datepicker" id="init-date" max="">
+              </div>              
+              <div class="col">
+                <label for="add-value" class="col-form-label">até</label>
+                <input name="end_date" type="date" class="form-control datepicker" id="end-date" max="">
+              </div>
+            </div>
+
+            <div class="row">
+              
+              <label class="col-form-label">Tipo:</label>
+              <div class="col">
+                <input class="form-check-input" type="radio" name="mode" id="spent" value="spent"> Gasto </label>
+                <label class="form-check-label" for="spent">
+              </div>
+              <div class="col">
+                <input class="form-check-input" type="radio" name="mode" id="profit" value="profit">
+                <label class="form-check-label" for="profit"> Saldo</label>
+              </div>
+              <div class="col">
+                <input class="form-check-input" type="radio" name="mode" id="profit" value="" checked>
+                <label class="form-check-label" for="profit"> Ambos</label>
+              </div>              
+            </div>
+            
+            <div class="float-right">
+              <div>
+                <button type="submit" class="btn app-main-btn"><i class="fas fa-check"></i></button>
+              </div>
+            </div>
+
+          </form>
+
+        </div>    
+      </div>
+  
+      <div class="modal-footer">
+  
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var filtersModal = new bootstrap.Modal(document.getElementById('modal-options-filters'), {
+    keyboard: false
+  });  
+
+</script>

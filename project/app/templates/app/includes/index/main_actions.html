@@ -21,9 +21,9 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="add-line-data-modalLabel">New message</h5>
-        {% comment %} <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> {% endcomment %}
       </div>
       <div class="modal-body">
+        
         <form id="add-line-data-form">
           {% csrf_token %}
 
@@ -36,7 +36,7 @@
           <!-- Data -->
           <div class="mb-3">
             <label for="add-value" class="col-form-label">Data</label>
-            <input name="date" type="date" class="form-control" id="add-date">
+            <input name="date" type="date" class="form-control datepicker" id="add-date" max="">
           </div>
 
 
@@ -52,7 +52,7 @@
           </div>
 
           <!-- Descrição -->
-          <div class="mb-3">
+          <div class="mb-3" style="display: none;">
             <label for="description" class="col-form-label">Descrição</label>
             <textarea class="form-control" name="description" id="description"></textarea>
           </div>

@@ -4,13 +4,20 @@
 {% block content %}
 
   <section class="container main-container">    
+    <!-- main actions -->
+    <hr>
+    {% include 'app/includes/index/main_actions.html' %}
+    
     <!-- overview -->
     <hr>
     {% include 'app/includes/index/main_overview.html' %}
     
-    <!-- main actions -->
-    <hr>
-    {% include 'app/includes/index/main_actions.html' %}
+    <!-- Modal  categories-->
+    {% include "app/includes/options/categories.html" %}
+
+    <!-- Modal  filters -->
+    {% include "app/includes/options/filters.html" %}
+
 
     <!--tabela mes atual-->
     <hr>
@@ -20,12 +27,6 @@
     <!--options-->
     <hr>
     {% include 'app/includes/index/options.html' %}
-
-
-
-    <div id="cat">
-      <p>cat</p>
-    </div>
     
   </section>
 

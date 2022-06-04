@@ -1,14 +1,22 @@
 
-<span class="app-balanco gray-text">08/04/22  - {{date_today}}</span> <span>seletor de datas ?</span>
+
+
+<div>
+  <span class="app-balanco gray-text">08/04/22  - {{date_today}}</span> <span>seletor de datas ?</span>
+</div>
 <div class="app-overview-spent app-flex-column app-balanco">
   
-  {% if balance.balance < 0 %}
-    <p class="app-balanco-info">balanço: <span class="red-value" >-R${{balance.balance}}</span> </p>
+  {% if balance.balance.0 == "-" %}
+    <p class="app-balanco-info">balanço: <span class="red-value" >R${{balance.balance}}</span> </p>
   {% else %}
-    <p class="app-balanco-info">balanço: <span class="green-value" >+R${{balance.balance}}</span> </p>
+    <p class="app-balanco-info">balanço: <span class="green-value" >R${{balance.balance}}</span> </p>
   {% endif %}
   
   <span>entradas:  <span class="green-value">R${{balance.profit}}</span> </span>
   <span>gastos: <span class="red-value">-R${{balance.spent}}</span> </span>
 
+</div>
+
+<div class="display-flex">
+  <button type="button" class="btn app-main-btn btn-lg main-action-btn filter-btn" data-bs-toggle="modal" data-bs-target="#modal-options-filters"> Filtrar</button>
 </div>

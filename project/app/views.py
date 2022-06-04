@@ -3,6 +3,8 @@ from django.http import JsonResponse, HttpResponseRedirect
 from django.core import serializers
 from django.urls import reverse
 
+from django.db.models import ProtectedError
+
 from datetime import date, datetime
 
 from app.models import DType, Data
@@ -13,13 +15,30 @@ import pprint
 # Create your views here.
 
 
+def apply_filters(data, filters):
+  if filters['mode']:
+    data = data.filter(mode=filters['mode'])
+
+  if filters['init_date']:
+    data = data.filter(date__gte=filters['init_date'])
+
+  if filters['end_date']:
+    data = data.filter(date__lte=filters['end_date'])
+
+  return data
 
 def index(request):
+  
   data = Data.objects.order_by('-date')
-  balance = calc_balance()
+  if request.method == 'POST':
+    data =apply_filters(data, request.POST)
+  
+  balance = calc_balance(data)
 
   spent_types = [t.dtype for t in DType.objects.filter(mode="spent")]
   profit_types = [t.dtype for t in DType.objects.filter(mode="profit")]
+  
+  
   date_today = date.today().strftime("%d/%m/%y")
   return render(request, 'app/index.html', {
     'date_today': date_today,
@@ -112,11 +131,13 @@ def add_dtype(request):
   return JsonResponse({"error": "Ops! Ocorreu um erro. Operação não realizada."}, status=400)    
 
 def remove_dtype(request, id):
-  #tratar on_delete restrict
-  dtype = DType.objects.get(id=id)
-  dtype.delete()
-
-  return HttpResponseRedirect('/#cat')
+  print(f"\n\t ---- {id} \n")
+  try:
+    dtype = DType.objects.get(id=id)
+    dtype.delete()
+    return HttpResponseRedirect('/#cat')
+  except ProtectedError:
+    return JsonResponse({"error": "Ops! Não foi possível remover a categoria. Existem registros associados a ela."}, status=400)    
 
 
 

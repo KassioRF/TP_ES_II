@@ -94,6 +94,16 @@ body {
   font-size: 14pt;
 }
 
+.filter-btn {
+  font-size: 10pt;
+  padding: 0.5em;
+  margin-top: 1em;
+}
+
+.float-right {
+  margin-top: 1em;
+  float: right;
+}
 
 /* value-color */
 .green-value {

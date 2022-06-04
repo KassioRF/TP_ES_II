@@ -1,28 +1,10 @@
 
 <nav class="app-nav-bar" >
-
-  <!-- 
-  <div class="w3-sidebar w3-bar-block w3-dark-grey w3-animate-left" style="display:none" id="mySidebar">
-    <button class="w3-bar-item w3-button w3-large"
-    onclick="w3_close()">Close &times;</button>
-    <a href="#" class="w3-bar-item w3-button   ">opções</a>
-    <a href="#" class="w3-bar-item w3-button">Op2</a>
-    <a href="#" class="w3-bar-item w3-button">Op3</a>
-  </div>
-  -->
-
   <div class="app-nav-elements-display-flex">
-    {% comment %} <button class="w3-button w3-xxlarge " onclick="w3_open()">&#9776;</button> {% endcomment %}
-    {% comment %} <button class="w3-button w3-xxlarge fas fa-cog " onclick="w3_open()"></button> {% endcomment %}
-    <button class="w3-button w3-xxlarge fas fa-cog " data-bs-toggle="modal" data-bs-target="#modal-options" ></button>
+    <button id="options" class="w3-button w3-xxlarge fas fa-cog" data-bs-toggle="modal" data-bs-target="#modal-options" ></button>
     <h2 class="app-logo">App <span class="fas fa-coins"></span> </h2>
   </div>
-
-  
 </nav>
-
-
-
 
 <!-- Modal  Menu-->
 <div class="modal fade" id="modal-options" tabindex="-1" aria-labelledby="modal-optionsLabel" aria-hidden="true">
@@ -31,176 +13,25 @@
       
       <div class="modal-header">
         <h5 class="modal-title" id="modal-optionsLabel">Opções</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal-options" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       
       <div class="modal-body">
         
         <div class="display-flex">
-            <button type="button" class="btn app-main-btn btn-lg main-action-btn" data-bs-toggle="modal" data-bs-target="#modal-options-categories"> categorias</button>
-            <button type="button" class="btn app-main-btn btn-lg main-action-btn" data-bs-toggle="modal" data-bs-target="#modal-options-fixed"> fixar lancamentos</button>
+            <button type="button" class="btn app-main-btn btn-lg main-action-btn" data-bs-toggle="modal" data-bs-target="#modal-options-categories"> Categorias</button>
+            <button type="button" class="btn app-main-btn btn-lg main-action-btn" data-bs-toggle="modal" data-bs-target="#modal-options-filters"> Filtros</button>
         </div>
       
       </div>
       
       <div class="modal-footer">
-        {% comment %} <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button> {% endcomment %}
+
       </div>
     </div>
   </div>
 </div>
 
-
-<!-- Modal  categories-->
-<div class="modal fade" id="modal-options-categories" tabindex="-1" aria-labelledby="modal-options-categories-Label" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-    <div class="modal-content">
-      
-      <div class="modal-header">
-        <h5 class="modal-title" id="modal-options-categories-Label">Categorias</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      
-      <div class="modal-body">      
-
-        <div class="display-flex">
-          <!-- table categories -->
-          <table class="table table-sm table-bordered app-table">
-            <thead>
-              <tr>
-                <th scope="col">categoria</th>
-                <th scope="col">tipo</th>
-                <th scope="col">del</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-
-                <form id="addtype-form" action="">
-                  {% csrf_token %}
-                  <td><input name="dtype" type="text" class="form-control" required></td>
-                  <td>
-                    <select name="mode" class="form-control" required>
-                      <option > --- </option>
-                      <option value="spent"> gasto </option>
-                      <option value="profit"> saldo </option>
-                    </select>
-                  
-                  </td>
-                  <td> <button id="addtype" type="submit" class="btn" > <span class="green-value far fa-check-circle"></span> </button> </td>  
-                </form>
-              
-              </tr>
-
-              {% for t in dtypes %}
-                <tr>
-                  <td>{{t.dtype}}</td>
-                  {% if t.mode == 'profit' %}
-                    <td class="green-value">saldo</td>
-                  {% else %}
-                    <td class="red-value">gasto</td>
-                  {% endif %}
-
-                  <td> <a id="removetype" type="button" class="btn" href="{% url 'app:remove_dtype' t.id %}"> <span class=" remove-table-line far fa-trash-alt"></span> </a> </td>  
-                </tr>              
-              {% endfor %}
-
-            </tbody>
-          </table>
-          
-          
-        </div>    
-      </div>
-  
-      <div class="modal-footer">
-  
-      </div>
-
-    </div>
-  </div>
-</div>
-
-
-<script>
-  var categoriesModal = new bootstrap.Modal(document.getElementById('modal-options-categories'), {
-    keyboard: false
-  });
-
-  if( window.location.hash == '#cat') {
-    categoriesModal.show();
-  }
-
-  //categoriesModal.toggle()
-
-  $("#addtype-form").submit(e => {
-    // preventing from page reload and default actions
-    e.preventDefault();
-    console.log("submit");
-    var serializedData = $("#addtype-form").serialize();
-    // url add category
-
-    var url = "{% url 'app:add_dtype' %}";
-    $.ajax({
-      type: 'POST',
-      url: url,
-      data: serializedData,
-      success: response => {
-        console.log('success');
-        window.location.reload(true);                
-      },
-      error: response => {
-        // alert the error if any error occured
-        window.location.reload(true);                
-        alert(response["responseJSON"]["error"])
-      }
-    })
-
-
-  })
-</script>
-
-<!-- Modal  fixed -->
-<div class="modal fade" id="modal-options-fixed" tabindex="-1" aria-labelledby="modal-options-fixed-Label" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-    <div class="modal-content">
-      
-      <div class="modal-header">
-        <h5 class="modal-title" id="modal-options-fixed-Label">Lançamentos fixados</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      
-      <div class="modal-body">        
-        <div class="display-flex">
-          <!-- table categories -->
-          <table class="table table-sm table-bordered app-table">
-            <thead>
-              <tr>
-                <th scope="col">categoria</th>
-                <th scope="col">tipo</th>
-                <th scope="col">del</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for t in spent_types %}
-                <tr>
-                  <td>{{t}}</td>
-                  <td>gasto</td>
-                  <td> <a id="removetype" type="button" class="btn" href=""> <span class=" remove-table-line far fa-trash-alt"></span> </a> </td>  
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-
-        </div>    
-      </div>
-  
-      <div class="modal-footer">
-  
-      </div>
-    </div>
-  </div>
-</div>
 
 
 
