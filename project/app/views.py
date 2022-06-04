@@ -16,7 +16,6 @@ import pprint
 
 def index(request):
   data = Data.objects.order_by('-date')
-
   balance = calc_balance()
 
   spent_types = [t.dtype for t in DType.objects.filter(mode="spent")]
@@ -27,7 +26,8 @@ def index(request):
     'data': data,
     'balance': balance,
     'spent_types': spent_types,
-    'profit_types': profit_types
+    'profit_types': profit_types,
+    'dtypes': DType.objects.all()
   
   })
 
@@ -92,6 +92,33 @@ def add_profit(request):
     return JsonResponse({"error": "Ops! Ocorreu um erro. Operação não realizada."}, status=400)
 
   return JsonResponse({"error": "Ops! Ocorreu um erro. Operação não realizada."}, status=400)
+
+
+def add_dtype(request):
+  if request.method == "POST":
+    dtype = request.POST['dtype']
+    mode = request.POST['mode']
+
+    for t in DType.objects.all():
+      if t.dtype.upper() == dtype.upper():
+        return JsonResponse({"error": "A categoria já existe."}, status=400)
+      
+    type_ = DType(dtype=dtype, mode=mode)
+    type_.save()
+
+    # return JsonResponse({"status": "ok"}, status=200)
+    return HttpResponseRedirect('/#cat')
+  
+  return JsonResponse({"error": "Ops! Ocorreu um erro. Operação não realizada."}, status=400)    
+
+def remove_dtype(request, id):
+  #tratar on_delete restrict
+  dtype = DType.objects.get(id=id)
+  dtype.delete()
+
+  return HttpResponseRedirect('/#cat')
+
+
 
 def remove_data(request, id):
   data = Data.objects.get(id=id)
