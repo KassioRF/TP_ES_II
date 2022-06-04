@@ -13,7 +13,9 @@ from app.utils import calc_balance
 import pprint
 
 # Create your views here.
-
+def get_str_date(date):
+  format = "%d/%m/%y"
+  return  datetime.strptime(date, "%Y-%m-%d").strftime("%d/%m/%y")
 
 def apply_filters(data, filters):
   if filters['mode']:
@@ -30,23 +32,29 @@ def apply_filters(data, filters):
 def index(request):
   
   data = Data.objects.order_by('-date')
+  date_range = {'init': '', 'end': date.today().strftime("%d/%m/%y")}
+  
   if request.method == 'POST':
-    data =apply_filters(data, request.POST)
+    data = apply_filters(data, request.POST)
+
+    if request.POST['init_date']:
+      date_range['init'] = get_str_date(request.POST['init_date'])
+
+    if request.POST['end_date']:
+      date_range['end'] = get_str_date(request.POST['end_date'])
   
   balance = calc_balance(data)
 
   spent_types = [t.dtype for t in DType.objects.filter(mode="spent")]
   profit_types = [t.dtype for t in DType.objects.filter(mode="profit")]
   
-  
-  date_today = date.today().strftime("%d/%m/%y")
   return render(request, 'app/index.html', {
-    'date_today': date_today,
-    'data': data,
+    'date_range': date_range,
+    'data': data.order_by('-date'),
     'balance': balance,
     'spent_types': spent_types,
     'profit_types': profit_types,
-    'dtypes': DType.objects.all()
+    'dtypes': DType.objects.order_by('dtype')
   
   })
 
