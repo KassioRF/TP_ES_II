@@ -30,3 +30,12 @@ No diretório project:
     ``
     $ python manage.py runserver 0.0.0.0:porta
     ``
+
+
+## Executando os testes unitários:
+
+No diretório project:
+    
+    ``
+    $ python manage.py test app.tests
+    ``
