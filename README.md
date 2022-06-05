@@ -1,6 +1,8 @@
 # TP_ES_II
 Trabalho prático - Engenharia de Software II
 
+Sistema de Gerenciamento de Gastos de Uma Residência
+
 ## Instalando dependências:
 
 Recomendo utilizar uma virtual environment (venv) para evitar conflitos com as dependências globais.
