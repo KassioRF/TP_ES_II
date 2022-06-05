@@ -8,26 +8,11 @@ from django.db.models import ProtectedError
 from datetime import date, datetime
 
 from app.models import DType, Data
-from app.utils import calc_balance
+from app.utils import calc_balance, get_str_date, apply_filters
 
 import pprint
 
 # Create your views here.
-def get_str_date(date):
-  format = "%d/%m/%y"
-  return  datetime.strptime(date, "%Y-%m-%d").strftime("%d/%m/%y")
-
-def apply_filters(data, filters):
-  if filters['mode']:
-    data = data.filter(mode=filters['mode'])
-
-  if filters['init_date']:
-    data = data.filter(date__gte=filters['init_date'])
-
-  if filters['end_date']:
-    data = data.filter(date__lte=filters['end_date'])
-
-  return data
 
 def index(request):
   
@@ -82,17 +67,14 @@ def add_spent(request):
 
     return JsonResponse({"status": "ok"}, status=200)
 
-  
-  
   else:
     return JsonResponse({"error": "Ops! Ocorreu um erro. Operação não realizada."}, status=400)
 
   return JsonResponse({"error": "Ops! Ocorreu um erro. Operação não realizada."}, status=400)
 
+
+
 def add_profit(request):
-
-
-  print("profit")
   if request.method == "POST":
     #get form data
     mode = "profit"
@@ -114,11 +96,11 @@ def add_profit(request):
 
     return JsonResponse({"status": "ok"}, status=200)
   
-  
   else:
     return JsonResponse({"error": "Ops! Ocorreu um erro. Operação não realizada."}, status=400)
 
   return JsonResponse({"error": "Ops! Ocorreu um erro. Operação não realizada."}, status=400)
+
 
 
 def add_dtype(request):
@@ -133,10 +115,11 @@ def add_dtype(request):
     type_ = DType(dtype=dtype, mode=mode)
     type_.save()
 
-    # return JsonResponse({"status": "ok"}, status=200)
     return HttpResponseRedirect('/#cat')
   
   return JsonResponse({"error": "Ops! Ocorreu um erro. Operação não realizada."}, status=400)    
+
+
 
 def remove_dtype(request, id):
   print(f"\n\t ---- {id} \n")
@@ -148,6 +131,7 @@ def remove_dtype(request, id):
     return JsonResponse({"error": "Ops! Não foi possível remover a categoria. Existem registros associados a ela."}, status=400)    
   except DType.DoesNotExist:
     return JsonResponse({"error": "Ops! O item não existe."}, status=400)    
+
 
 
 def remove_data(request, id):

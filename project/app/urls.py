@@ -8,6 +8,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('post/ajax/spent', views.add_spent, name="add_spent"),
     path('post/ajax/profit', views.add_profit, name="add_profit"),
+
     path('del/ajax/data/<int:id>', views.remove_data, name="remove"),
 
     path('post/ajax/type', views.add_dtype, name="add_dtype"),
