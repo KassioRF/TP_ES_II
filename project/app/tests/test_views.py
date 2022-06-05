@@ -3,12 +3,6 @@ from app.models import Data
 
 
 class ViewsTestCase(TestCase):
-  #testes de rotas
-  def test_index_loads_properly(self):
-    """ Verifica se a requisição da view index na rota "/" responde corretamente """
-    response=self.client.get('http://127.0.0.1:8000/')
-    self.assertEqual(response.status_code, 200)
-
   #teste rotas de remoção
   def test_remove_data_invalid(self):
     """Força o tratamento da exceção de item não existente no banco de dados"""
