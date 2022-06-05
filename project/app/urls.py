@@ -11,7 +11,7 @@ urlpatterns = [
     path('del/ajax/data/<int:id>', views.remove_data, name="remove"),
 
     path('post/ajax/type', views.add_dtype, name="add_dtype"),
-    path('del/ajax/cat/<int:id>', views.remove_dtype, name="remove_dtype"),
+    path('del/ajax/type/<int:id>', views.remove_dtype, name="remove_dtype"),
 
     
 ]

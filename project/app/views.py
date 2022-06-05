@@ -146,11 +146,15 @@ def remove_dtype(request, id):
     return HttpResponseRedirect('/#cat')
   except ProtectedError:
     return JsonResponse({"error": "Ops! Não foi possível remover a categoria. Existem registros associados a ela."}, status=400)    
-
+  except DType.DoesNotExist:
+    return JsonResponse({"error": "Ops! O item não existe."}, status=400)    
 
 
 def remove_data(request, id):
-  data = Data.objects.get(id=id)
-  data.delete()
-
-  return HttpResponseRedirect('/')
+  try:
+    data = Data.objects.get(id=id)
+    data.delete()
+    return HttpResponseRedirect('/')
+  
+  except Data.DoesNotExist:
+    return JsonResponse({"error": "Ops! O item não existe."}, status=400)    
